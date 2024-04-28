@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { fetchTrends } from "../../../movie-api"; // Імпорт fetchTrends
+import { fetchTrends } from "../../../movie-api";
 
 import MovieList from "../../MovieList/MovieList";
 

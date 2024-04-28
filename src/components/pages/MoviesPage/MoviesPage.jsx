@@ -1,18 +1,24 @@
 import { useEffect, useState } from "react";
 import { getMovies } from "../../../movie-api";
 import MovieList from "../../MovieList/MovieList";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
+import SearchBar from "../../SearchBar/SearchBar";
 
 export default function MoviesPage() {
   const [movies, setMovies] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
   useEffect(() => {
     async function fetchMovies() {
       try {
         setLoading(true);
-        const data = await getMovies();
-        setMovies(data);
+        const query = searchParams.get("query") || "";
+        const movieData = await getMovies(query);
+
+        setMovies(movieData);
       } catch (error) {
         setError(true);
       } finally {
@@ -21,11 +27,31 @@ export default function MoviesPage() {
     }
 
     fetchMovies();
-  }, []);
+  }, [searchParams]);
+
+  const handleSearchSubmit = (query) => {
+    if (query) {
+      setSearchParams({ query });
+    }
+  };
 
   return (
     <div>
-      <p>MoviesPage</p>
+      <SearchBar onSubmit={handleSearchSubmit} />
+      <MovieList>
+        {movies.map(({ id, title }) => (
+          <li key={id}>
+            <Link
+              to={`${id}`}
+              state={{
+                from: location,
+              }}
+            >
+              {title}
+            </Link>
+          </li>
+        ))}
+      </MovieList>
       {loading && <b>Loading movies...</b>}
       {error && <p>Oops! Something went wrong! </p>}
       {movies && movies.length > 0 && <MovieList movies={movies} />}

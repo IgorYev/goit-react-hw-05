@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
 
-export default function MovieList({ trendingMovies, location }) {
+export default function MovieList({ movies, trendingMovies, location }) {
+  const moviesToDisplay = trendingMovies || movies;
+
   return (
     <ul>
-      {trendingMovies &&
-        Array.isArray(trendingMovies) &&
-        trendingMovies.map(({ id, title }) => (
+      {moviesToDisplay &&
+        Array.isArray(moviesToDisplay) &&
+        moviesToDisplay.map(({ id, title }) => (
           <li key={id}>
             <Link to={`/movies/${id}`} state={{ from: location }}>
               {title}
