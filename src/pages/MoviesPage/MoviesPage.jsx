@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { getMovies } from "../../../movie-api";
-import MovieList from "../../MovieList/MovieList";
+import { getMovies } from "../../movie-api";
+import MovieList from "../../components/MovieList/MovieList";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
-import SearchBar from "../../SearchBar/SearchBar";
+import SearchBar from "../../components/SearchBar/SearchBar";
 
 import css from "./MoviesPage.module.css";
 
