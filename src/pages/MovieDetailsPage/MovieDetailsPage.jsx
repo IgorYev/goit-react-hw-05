@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams, useLocation, Outlet } from "react-router-dom";
-import { fetchMovieDetails } from "../../../movie-api";
-import GoBack from "../../GoBack/GoBack";
+import { fetchMovieDetails } from "../../movie-api";
+import GoBack from "../../components/GoBack/GoBack";
 import css from "./MovieDetailsPage.module.css";
 
 export default function MoviesDetailsPage() {
