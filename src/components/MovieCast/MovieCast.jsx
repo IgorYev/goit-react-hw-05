@@ -1,6 +1,7 @@
 import { fetchMovieCast } from "../../movie-api";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import css from "./MovieCast.module.css";
 
 export default function MovieCast() {
   const [cast, setCast] = useState([]);
@@ -32,9 +33,9 @@ export default function MovieCast() {
       ) : !cast || cast.length === 0 ? (
         <p>Cast not found.</p>
       ) : (
-        <ul>
+        <ul className={css.list}>
           {cast.map(({ id, name, profile_path, character }) => (
-            <li key={id}>
+            <li className={css.item} key={id}>
               <img
                 src={
                   profile_path
@@ -44,8 +45,8 @@ export default function MovieCast() {
                 alt={name}
                 width="120"
               />
-              <h4>{name}</h4>
-              <p>{character}</p>
+              <h4 className={css.nameActor}>{name}</h4>
+              <p className={css.nameCharacter}>{character}</p>
             </li>
           ))}
         </ul>

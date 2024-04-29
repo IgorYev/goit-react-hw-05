@@ -1,0 +1,13 @@
+.movieLi {
+  margin-bottom: 5px;
+  margin-left: 20px;
+  transition: background-color 0.3s ease;
+}
+.home_link:hover,
+.home_link:focus {
+  color: #0004fd;
+  cursor: pointer;
+}
+.home_link {
+  color: #2b2a2a;
+}

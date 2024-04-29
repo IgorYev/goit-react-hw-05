@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useParams, useLocation, Outlet } from "react-router-dom";
 import { fetchMovieDetails } from "../../../movie-api";
+import GoBack from "../../GoBack/GoBack";
 import css from "./MovieDetailsPage.module.css";
-
 
 export default function MoviesDetailsPage() {
   const { movieId } = useParams();
@@ -10,6 +10,7 @@ export default function MoviesDetailsPage() {
   const [loading, setLoading] = useState(true);
 
   const location = useLocation();
+  const backLinkHref = location.state?.from ?? "/";
 
   useEffect(() => {
     const getMovieDetails = async () => {
@@ -49,58 +50,64 @@ export default function MoviesDetailsPage() {
 
   return (
     <div className={css.container}>
-      {poster_path === null ? (
-        <img src={defaultImg} alt={"here must be a poster"} />
-      ) : (
-        <img src={fixedUrl} alt={title} />
-      )}
+      <GoBack
+        style={{ marginLeft: "20px", marginTop: "10px", marginBottom: "10px" }}
+        to={backLinkHref}
+      >
+        {"<-- "}Go back
+      </GoBack>
 
-      <div>
-        <h1>{title}</h1>
-        <p>({fixedDate})</p>
-        <p>User score: {fixedScore}%</p>
-        {overview && (
-          <>
-            <h3>Overview</h3>
-            <p>{overview}</p>
-          </>
+      <div className={css.containerDop}>
+        {poster_path === null ? (
+          <img
+            className={css.poster}
+            src={defaultImg}
+            alt={"here must be a poster"}
+          />
+        ) : (
+          <img className={css.poster} src={fixedUrl} alt={title} />
         )}
-        {genres && genres.length > 0 && (
-          <>
-            <h3>Genres</h3>
-            <ul>
-              {genres.map(({ id, name }) => (
-                <li key={id}>{name}</li>
-              ))}
-            </ul>
-            <ul>
-              <h2>Additional information</h2>
+
+        <div className={css.movieDetails}>
+          <h1 className={css.title}>{title}</h1>
+          <p className={css.releaseDate}>({fixedDate})</p>
+          <p className={css.userScore}>User score: {fixedScore}%</p>
+          {overview && (
+            <>
+              <h3 className={css.overview}>Overview</h3>
+              <p>{overview}</p>
+            </>
+          )}
+          {genres && genres.length > 0 && (
+            <>
+              <h3 className={css.genres}>Genres</h3>
               <ul>
-                <li>
-                  <Link to={`cast`} state={location.state}>
-                    Cast
-                  </Link>
-                </li>
-                <li>
-                  <Link to={`reviews`} state={location.state}>
-                    Reviews
-                  </Link>
-                </li>
+                {genres.map(({ id, name }) => (
+                  <li key={id}>{name}</li>
+                ))}
               </ul>
-            </ul>
-          </>
-        )}
+              <div className={css.additionalInfo}>
+                <Link
+                  className={css.additionalInfoLink}
+                  to={`cast`}
+                  state={location.state}
+                >
+                  Cast
+                </Link>
+                <Link
+                  className={css.additionalInfoLink}
+                  to={`reviews`}
+                  state={location.state}
+                >
+                  Reviews
+                </Link>
+              </div>
+            </>
+          )}
+        </div>
       </div>
 
       <Outlet />
     </div>
   );
-}
-
-{
-  /* <div>
-              <Suspense fallback={<div>Loading subpage...</div>}>
-                <Outlet />
-              </Suspense>
-            </div> */
 }
