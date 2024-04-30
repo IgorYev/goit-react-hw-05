@@ -41,23 +41,22 @@ export default function MoviesPage() {
     <div className={css.pageContainer}>
       <div className={css.SearchForm}>
         <SearchBar onSubmit={handleSearchSubmit} />
-        <MovieList>
-          {movies.map(({ id, title }) => (
-            <li key={id}>
+        {loading && <b>Loading movies...</b>}
+        {error && <p>Oops! Something went wrong! </p>}
+        <MovieList movies={movies}>
+          {(movie) => (
+            <li key={movie.id}>
               <Link
-                to={`${id}`}
+                to={`${movie.id}`}
                 state={{
                   from: location,
                 }}
               >
-                {title}
+                {movie.title}
               </Link>
             </li>
-          ))}
+          )}
         </MovieList>
-        {loading && <b>Loading movies...</b>}
-        {error && <p>Oops! Something went wrong! </p>}
-        {movies && movies.length > 0 && <MovieList movies={movies} />}
       </div>
     </div>
   );
